@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSLONY — Creative Digital Studio</title>
+    <!-- Google AdSense verification meta tag -->
+  <meta name="google-adsense-account" content="ca-pub-9657019156571671">
+    <noscript>
+        <style>
+            * { margin:0; padding:0; box-sizing:border-box; }
+            body {
+                font-family:'Segoe UI',Inter,system-ui,-apple-system,sans-serif;
+                background:#0d0d1a; color:#e0e0e0;
+                display:flex; align-items:center; justify-content:center;
+                min-height:100vh; text-align:center; padding:2rem;
+            }
+            .ns-container {
+                max-width:600px; background:#1a1a2e; border-radius:24px;
+                padding:3rem 2rem; border:2px solid rgba(255,107,157,0.3);
+                box-shadow:0 30px 80px rgba(0,0,0,0.6);
+            }
+            .ns-logo {
+                font-size:4rem; font-weight:900; letter-spacing:0.05em;
+                background:linear-gradient(135deg,#ff6b9d,#c44dff,#7ec8e3);
+                -webkit-background-clip:text; background-clip:text;
+                -webkit-text-fill-color:transparent; margin-bottom:0.5rem;
+            }
+            .ns-icon { font-size:5rem; margin-bottom:0.5rem; }
+            .ns-title { font-size:1.6rem; font-weight:700; color:#ff6b9d; margin-bottom:1rem; }
+            .ns-desc { color:#aaa; line-height:1.7; margin-bottom:2rem; }
+            .ns-features { display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; margin-bottom:1.5rem; }
+            .ns-feat {
+                background:#0d0d1a; border-radius:12px; padding:1rem 1.2rem;
+                border:1px solid rgba(255,255,255,0.08); min-width:100px;
+            }
+            .ns-feat .emoji { font-size:2rem; display:block; margin-bottom:0.3rem; }
+            .ns-feat span { font-size:0.8rem; color:#888; }
+            .ns-note { color:#666; font-size:0.8rem; margin-top:1rem; }
+        </style>
+        <div class="ns-container">
+            <div class="ns-icon">🦄</div>
+            <div class="ns-logo">JSLONY</div>
+            <div class="ns-title">JavaScript Required</div>
+            <p class="ns-desc">
+                JSLONY is a dynamic site built entirely with JavaScript.
+                Please enable JavaScript in your browser to experience the full site —
+                creative studio showcases, interactive elements, and more.
+            </p>
+            <div class="ns-features">
+                <div class="ns-feat"><span class="emoji">🎨</span><span>Design</span></div>
+                <div class="ns-feat"><span class="emoji">⚡</span><span>Performance</span></div>
+                <div class="ns-feat"><span class="emoji">🚀</span><span>Innovation</span></div>
+                <div class="ns-feat"><span class="emoji">💡</span><span>Creativity</span></div>
+            </div>
+            <p class="ns-note">Enable JavaScript in your browser settings to continue.</p>
+        </div>
+    </noscript>
+</head>
+<body>
+    <div id="jslony-root"></div>
+
+    <script>
+        (function() {
+            const root = document.getElementById('jslony-root');
+            if (!root) return;
+
+            // ─────────────────────────────────────
+            // 1. INJECT ALL STYLES
+            // ─────────────────────────────────────
+            const styleEl = document.createElement('style');
+            styleEl.textContent = `
+                :root {
+                    --bg: #0b0b18;
+                    --surface: #13132b;
+                    --surface2: #1a1a35;
+                    --accent: #ff5c8a;
+                    --accent2: #b44dff;
+                    --accent3: #5ec5e8;
+                    --text: #e8e8f0;
+                    --text2: #b0b0c0;
+                    --text3: #7a7a95;
+                    --radius: 16px;
+                    --radius-sm: 10px;
+                    --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                    --font: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+                }
+
+                * { margin:0; padding:0; box-sizing:border-box; }
+                html { scroll-behavior:smooth; }
+                body {
+                    background:var(--bg);
+                    font-family:var(--font);
+                    color:var(--text);
+                    line-height:1.6;
+                    overflow-x:hidden;
+                    -webkit-font-smoothing:antialiased;
+                }
+
+                .container { max-width:1100px; margin:0 auto; padding:0 1.5rem; }
+                .section-padding { padding:5rem 1.5rem; }
+
+                /* NAV */
+                .jslony-nav {
+                    position:fixed; top:0; left:0; right:0; z-index:1000;
+                    background:rgba(11,11,24,0.75); backdrop-filter:blur(20px);
+                    -webkit-backdrop-filter:blur(20px);
+                    border-bottom:1px solid rgba(255,255,255,0.06);
+                    transition:var(--transition); padding:0 1.5rem;
+                }
+                .jslony-nav.scrolled {
+                    background:rgba(11,11,24,0.92);
+                    box-shadow:0 4px 30px rgba(0,0,0,0.4);
+                }
+                .nav-inner {
+                    max-width:1100px; margin:0 auto;
+                    display:flex; align-items:center; justify-content:space-between;
+                    height:64px;
+                }
+                .nav-logo {
+                    font-size:1.6rem; font-weight:900; letter-spacing:0.04em;
+                    background:linear-gradient(135deg,var(--accent),var(--accent2));
+                    -webkit-background-clip:text; background-clip:text;
+                    -webkit-text-fill-color:transparent;
+                    cursor:pointer; text-decoration:none;
+                }
+                .nav-links { display:flex; gap:2rem; list-style:none; align-items:center; }
+                .nav-links a {
+                    color:var(--text2); text-decoration:none; font-weight:500;
+                    font-size:0.95rem; transition:var(--transition); position:relative;
+                }
+                .nav-links a::after {
+                    content:''; position:absolute; bottom:-4px; left:0;
+                    width:0; height:2px; background:var(--accent);
+                    transition:width var(--transition);
+                }
+                .nav-links a:hover { color:#fff; }
+                .nav-links a:hover::after { width:100%; }
+                .nav-cta {
+                    background:var(--accent); color:#fff !important;
+                    padding:0.5rem 1.3rem; border-radius:25px; font-weight:600 !important;
+                }
+                .nav-cta::after { display:none !important; }
+                .hamburger { display:none; flex-direction:column; gap:5px; background:none; border:none; padding:8px; cursor:pointer; }
+                .hamburger span { width:26px; height:2.5px; background:var(--text); border-radius:2px; transition:var(--transition); }
+                @media (max-width:768px) {
+                    .nav-links {
+                        position:fixed; top:0; right:-100%; width:280px; height:100vh;
+                        background:var(--surface); flex-direction:column;
+                        padding:6rem 2rem 2rem; gap:1.8rem;
+                        transition:right var(--transition);
+                        box-shadow:-10px 0 40px rgba(0,0,0,0.5);
+                        border-left:1px solid rgba(255,255,255,0.05);
+                    }
+                    .nav-links.open { right:0; }
+                    .hamburger { display:flex; }
+                }
+
+                /* HERO */
+                .hero {
+                    min-height:100vh; display:flex; align-items:center;
+                    justify-content:center; text-align:center; position:relative;
+                    overflow:hidden; padding-top:64px;
+                }
+                .hero-bg-orb {
+                    position:absolute; border-radius:50%; filter:blur(120px);
+                    pointer-events:none; z-index:0;
+                    animation:orbFloat 8s ease-in-out infinite;
+                }
+                .orb1 { width:500px; height:500px; background:rgba(255,92,138,0.12); top:-15%; left:-10%; }
+                .orb2 { width:400px; height:400px; background:rgba(180,77,255,0.1); bottom:-10%; right:-8%; animation-delay:-4s; }
+                .orb3 { width:300px; height:300px; background:rgba(94,197,232,0.08); top:50%; left:50%; transform:translate(-50%,-50%); animation-delay:-6s; }
+                @keyframes orbFloat {
+                    0%,100% { transform:translate(0,0) scale(1); }
+                    25% { transform:translate(40px,-30px) scale(1.08); }
+                    50% { transform:translate(-20px,20px) scale(0.94); }
+                    75% { transform:translate(-35px,-15px) scale(1.05); }
+                }
+                .hero-content { position:relative; z-index:1; max-width:750px; }
+                .hero-badge {
+                    display:inline-block; background:rgba(255,255,255,0.04);
+                    border:1px solid rgba(255,255,255,0.1);
+                    padding:0.4rem 1rem; border-radius:20px; font-size:0.85rem;
+                    color:var(--accent3); letter-spacing:0.06em; margin-bottom:1.5rem;
+                    animation:fadeInUp 0.8s ease forwards;
+                }
+                .hero-title {
+                    font-size:clamp(2.8rem,6vw,4.5rem); font-weight:900;
+                    line-height:1.1; letter-spacing:-0.02em; margin-bottom:1.2rem;
+                    animation:fadeInUp 0.8s 0.15s ease forwards; opacity:0;
+                }
+                .gradient-text {
+                    background:linear-gradient(135deg,var(--accent),var(--accent2),var(--accent3));
+                    background-size:200% 200%;
+                    -webkit-background-clip:text; background-clip:text;
+                    -webkit-text-fill-color:transparent;
+                    animation:gradientShift 5s ease infinite;
+                }
+                @keyframes gradientShift {
+                    0%,100% { background-position:0% 50%; }
+                    50% { background-position:100% 50%; }
+                }
+                .hero-subtitle {
+                    font-size:1.2rem; color:var(--text3); max-width:550px;
+                    margin:0 auto 2.5rem; animation:fadeInUp 0.8s 0.3s ease forwards; opacity:0;
+                }
+                .hero-buttons {
+                    display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;
+                    animation:fadeInUp 0.8s 0.45s ease forwards; opacity:0;
+                }
+                @keyframes fadeInUp {
+                    from { opacity:0; transform:translateY(30px); }
+                    to { opacity:1; transform:translateY(0); }
+                }
+                .btn {
+                    display:inline-block; padding:0.85rem 2rem; border-radius:30px;
+                    font-weight:600; letter-spacing:0.03em; text-decoration:none;
+                    cursor:pointer; transition:var(--transition); font-size:1rem;
+                    border:none; font-family:var(--font);
+                }
+                .btn-primary {
+                    background:var(--accent); color:#fff;
+                    box-shadow:0 8px 30px rgba(255,92,138,0.3);
+                }
+                .btn-primary:hover {
+                    background:#ff4075; transform:translateY(-3px);
+                    box-shadow:0 15px 40px rgba(255,92,138,0.45);
+                }
+                .btn-outline {
+                    background:transparent; color:var(--text);
+                    border:2px solid rgba(255,255,255,0.2);
+                }
+                .btn-outline:hover {
+                    border-color:var(--accent3); color:#fff;
+                    background:rgba(255,255,255,0.03); transform:translateY(-3px);
+                }
+
+                /* SECTIONS */
+                .section-label {
+                    text-transform:uppercase; letter-spacing:0.12em;
+                    font-size:0.8rem; color:var(--accent); font-weight:700; margin-bottom:0.6rem;
+                }
+                .section-title {
+                    font-size:clamp(2rem,4vw,2.8rem); font-weight:800;
+                    letter-spacing:-0.02em; margin-bottom:1rem; line-height:1.2;
+                }
+                .section-desc {
+                    color:var(--text3); max-width:550px; font-size:1.05rem; margin-bottom:3rem;
+                }
+
+                /* CARDS */
+                .cards-grid {
+                    display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.5rem;
+                }
+                .card {
+                    background:var(--surface); border:1px solid rgba(255,255,255,0.05);
+                    border-radius:var(--radius); padding:2rem 1.8rem;
+                    transition:var(--transition); position:relative; overflow:hidden;
+                }
+                .card:hover {
+                    transform:translateY(-6px); border-color:rgba(255,255,255,0.15);
+                    box-shadow:0 20px 50px rgba(0,0,0,0.4);
+                }
+                .card-icon { font-size:2.5rem; margin-bottom:1.2rem; display:block; }
+                .card h3 { font-size:1.2rem; font-weight:700; margin-bottom:0.6rem; }
+                .card p { color:var(--text3); font-size:0.95rem; line-height:1.6; }
+
+                /* AD CONTAINERS */
+                .ad-container {
+                    width:100%; display:flex; justify-content:center; margin:2.5rem 0;
+                }
+                .ad-container ins {
+                    display:block; width:100%; min-height:90px;
+                    background:rgba(255,255,255,0.02);
+                    border:1px dashed rgba(255,255,255,0.15); border-radius:12px;
+                    color:var(--text3); font-size:0.8rem;
+                    display:flex; align-items:center; justify-content:center;
+                }
+
+                /* COOKIE BANNER */
+                .cookie-banner {
+                    position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
+                    background:var(--surface); border:1px solid rgba(255,255,255,0.1);
+                    border-radius:16px; padding:1.2rem 1.8rem;
+                    display:flex; align-items:center; gap:1.5rem; flex-wrap:wrap;
+                    z-index:2000; box-shadow:0 20px 50px rgba(0,0,0,0.6);
+                    backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+                    max-width:700px; width:calc(100% - 2rem);
+                    transition:opacity 0.4s, transform 0.4s, visibility 0.4s;
+                }
+                .cookie-banner.hidden {
+                    opacity:0; visibility:hidden; pointer-events:none;
+                    transform:translateX(-50%) translateY(20px);
+                }
+                .cookie-banner p { color:var(--text2); font-size:0.9rem; margin:0; flex:1; min-width:200px; }
+                .cookie-banner p a { color:var(--accent3); text-decoration:underline; }
+                .cookie-btns { display:flex; gap:0.8rem; flex-wrap:wrap; }
+                .cookie-btn {
+                    padding:0.5rem 1.3rem; border-radius:20px; font-weight:600;
+                    font-size:0.85rem; cursor:pointer; border:none;
+                    font-family:var(--font); transition:var(--transition);
+                }
+                .cookie-btn.accept { background:var(--accent); color:#fff; }
+                .cookie-btn.accept:hover { background:#ff4075; }
+                .cookie-btn.reject {
+                    background:transparent; border:1px solid rgba(255,255,255,0.25);
+                    color:var(--text2);
+                }
+                .cookie-btn.reject:hover { border-color:var(--text); color:#fff; }
+                .cookie-btn.customize {
+                    background:transparent; border:1px solid rgba(255,255,255,0.25);
+                    color:var(--text2);
+                }
+                .cookie-btn.customize:hover { border-color:var(--text); color:#fff; }
+
+                /* CONSENT MODAL */
+                .consent-overlay {
+                    position:fixed; inset:0; background:rgba(0,0,0,0.7);
+                    backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+                    z-index:3000; display:flex; align-items:center; justify-content:center;
+                    padding:1.5rem; opacity:0; visibility:hidden;
+                    transition:opacity 0.3s, visibility 0.3s;
+                }
+                .consent-overlay.active { opacity:1; visibility:visible; }
+                .consent-modal {
+                    background:var(--surface); border:1px solid rgba(255,255,255,0.08);
+                    border-radius:20px; padding:2rem 2rem 1.8rem;
+                    max-width:500px; width:100%;
+                    box-shadow:0 30px 60px rgba(0,0,0,0.7);
+                    transform:translateY(20px); transition:transform 0.3s;
+                }
+                .consent-overlay.active .consent-modal { transform:translateY(0); }
+                .consent-modal h3 {
+                    font-size:1.4rem; font-weight:700; margin-bottom:0.8rem; color:var(--text);
+                }
+                .consent-modal .modal-desc {
+                    color:var(--text3); font-size:0.9rem; margin-bottom:1.8rem; line-height:1.6;
+                }
+                .consent-option {
+                    display:flex; align-items:flex-start; gap:1rem; padding:1rem 0;
+                    border-bottom:1px solid rgba(255,255,255,0.05);
+                }
+                .consent-option:last-of-type { border-bottom:none; }
+                .consent-option .option-text { flex:1; }
+                .consent-option .option-text strong { display:block; font-size:1rem; color:var(--text); margin-bottom:0.2rem; }
+                .consent-option .option-text small { color:var(--text3); font-size:0.8rem; }
+                .toggle-switch {
+                    position:relative; display:inline-block; width:44px; height:24px; flex-shrink:0; margin-top:2px;
+                }
+                .toggle-switch input { opacity:0; width:0; height:0; }
+                .slider {
+                    position:absolute; cursor:pointer; inset:0;
+                    background:rgba(255,255,255,0.15); border-radius:24px;
+                    transition:var(--transition);
+                }
+                .slider:before {
+                    position:absolute; content:""; height:18px; width:18px;
+                    left:3px; bottom:3px; background:white; border-radius:50%;
+                    transition:var(--transition);
+                }
+                input:checked + .slider { background:var(--accent); }
+                input:checked + .slider:before { transform:translateX(20px); }
+                input:disabled + .slider { opacity:0.5; cursor:not-allowed; }
+                .modal-actions {
+                    display:flex; gap:0.8rem; margin-top:2rem; justify-content:flex-end; flex-wrap:wrap;
+                }
+                .modal-actions .btn { padding:0.6rem 1.5rem; font-size:0.9rem; }
+
+                /* FLOATING COOKIE ICON */
+                .cookie-settings-icon {
+                    position:fixed; bottom:24px; left:24px; width:44px; height:44px;
+                    background:var(--surface); border:1px solid rgba(255,255,255,0.1);
+                    border-radius:50%; display:flex; align-items:center; justify-content:center;
+                    font-size:1.3rem; cursor:pointer; z-index:1999;
+                    box-shadow:0 8px 20px rgba(0,0,0,0.4);
+                    transition:var(--transition);
+                    opacity:0; pointer-events:none;
+                }
+                .cookie-settings-icon.visible { opacity:1; pointer-events:auto; }
+                .cookie-settings-icon:hover { background:var(--surface2); border-color:rgba(255,255,255,0.25); transform:scale(1.08); }
+
+                /* CTA */
+                .cta-section {
+                    text-align:center; background:var(--surface);
+                    border-radius:var(--radius); padding:3.5rem 2rem;
+                    border:1px solid rgba(255,255,255,0.05);
+                    position:relative; overflow:hidden;
+                }
+                .cta-section::after {
+                    content:''; position:absolute; inset:0;
+                    background:radial-gradient(ellipse at center, rgba(255,92,138,0.06) 0%, transparent 70%);
+                    pointer-events:none;
+                }
+                .cta-section > * { position:relative; z-index:1; }
+
+                /* FOOTER */
+                .jslony-footer {
+                    background:var(--surface); border-top:1px solid rgba(255,255,255,0.05);
+                    padding:2.5rem 1.5rem; text-align:center; color:var(--text3); font-size:0.9rem;
+                }
+                .footer-links {
+                    display:flex; gap:1.5rem; justify-content:center; flex-wrap:wrap; margin-bottom:1rem;
+                }
+                .footer-links a { color:var(--text2); text-decoration:none; transition:var(--transition); }
+                .footer-links a:hover { color:var(--accent); }
+                .footer-copy { font-size:0.8rem; color:var(--text3); }
+                .footer-copy .heart { color:var(--accent); }
+            `;
+            document.head.appendChild(styleEl);
+
+            // ─────────────────────────────────────
+            // 2. BUILD THE DOM
+            // ─────────────────────────────────────
+
+            // NAV
+            const nav = document.createElement('nav');
+            nav.className = 'jslony-nav';
+            nav.innerHTML = `
+                <div class="nav-inner">
+                    <a href="#hero" class="nav-logo">JSLONY</a>
+                    <button class="hamburger" id="hamburgerBtn"><span></span><span></span><span></span></button>
+                    <ul class="nav-links" id="navLinks">
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#work">Work</a></li>
+                        <li><a href="#contact" class="nav-cta">Get In Touch</a></li>
+                    </ul>
+                </div>
+            `;
+
+            // HERO
+            const hero = document.createElement('section');
+            hero.className = 'hero';
+            hero.id = 'hero';
+            hero.innerHTML = `
+                <div class="hero-bg-orb orb1"></div>
+                <div class="hero-bg-orb orb2"></div>
+                <div class="hero-bg-orb orb3"></div>
+                <div class="hero-content">
+                    <span class="hero-badge">✦ New Digital Studio</span>
+                    <h1 class="hero-title">We're Just Getting Started<br><span class="gradient-text">Building Beautiful</span><br>Digital Experiences</h1>
+                    <p class="hero-subtitle">JSLONY is a fresh, independent project dedicated to crafting modern websites and apps — with passion, not a big team.</p>
+                    <div class="hero-buttons">
+                        <a href="#features" class="btn btn-primary">Explore What We Do</a>
+                        <a href="#contact" class="btn btn-outline">Work With Me</a>
+                    </div>
+                </div>
+            `;
+
+            // AD BANNER 1
+            const adBanner1 = document.createElement('div');
+            adBanner1.className = 'container';
+            const ad1 = document.createElement('div');
+            ad1.className = 'ad-container';
+            const ins1 = document.createElement('ins');
+            ins1.className = 'adsbygoogle';
+            ins1.style.display = 'block';
+            ins1.setAttribute('data-ad-client', 'ca-pub-9657019156571671');
+            ins1.setAttribute('data-ad-slot', '1111111111');
+            ins1.setAttribute('data-ad-format', 'auto');
+            ins1.setAttribute('data-full-width-responsive', 'true');
+            ad1.appendChild(ins1);
+            adBanner1.appendChild(ad1);
+
+            // FEATURES
+            const featuresSection = document.createElement('section');
+            featuresSection.className = 'section-padding';
+            featuresSection.id = 'features';
+            featuresSection.innerHTML = `
+                <div class="container">
+                    <span class="section-label">What I Offer</span>
+                    <h2 class="section-title">Focused on quality, not quantity</h2>
+                    <p class="section-desc">Every project gets my full attention. Here's what I bring to the table.</p>
+                    <div class="cards-grid" id="featuresGrid"></div>
+                </div>
+            `;
+            const featuresData = [
+                { icon:'🎨', title:'Clean UI/UX Design', desc:'Interfaces that feel intuitive and look stunning.' },
+                { icon:'⚡', title:'Performance First', desc:'Fast load times, smooth animations — because speed matters.' },
+                { icon:'🔧', title:'Full-Stack Development', desc:'Frontend to backend, I handle the entire stack.' },
+                { icon:'📱', title:'Mobile Ready', desc:'Responsive designs that work on every screen size.' },
+                { icon:'🎯', title:'SEO & Accessibility', desc:'Built for humans and search engines, from the ground up.' },
+                { icon:'🚀', title:'Reliable Support', desc:'I'm with you even after launch — updates, fixes, advice.' },
+            ];
+            const featuresGrid = featuresSection.querySelector('#featuresGrid');
+            featuresData.forEach(f => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `<span class="card-icon">${f.icon}</span><h3>${f.title}</h3><p>${f.desc}</p>`;
+                featuresGrid.appendChild(card);
+            });
+
+            // SERVICES
+            const servicesSection = document.createElement('section');
+            servicesSection.className = 'section-padding';
+            servicesSection.id = 'services';
+            servicesSection.style.background = 'var(--surface)';
+            servicesSection.innerHTML = `
+                <div class="container">
+                    <span class="section-label">Services</span>
+                    <h2 class="section-title">What I can build for you</h2>
+                    <p class="section-desc">From simple landing pages to complex web apps — I love turning ideas into reality.</p>
+                    <div class="cards-grid" id="servicesGrid"></div>
+                </div>
+            `;
+            const servicesData = [
+                { icon:'🌐', title:'Web Development', desc:'Custom websites, portfolios, and business sites.' },
+                { icon:'🛒', title:'E-Commerce', desc:'Online stores that are easy to manage and scale.' },
+                { icon:'📊', title:'Dashboards', desc:'Data‑driven interfaces and admin panels.' },
+                { icon:'📱', title:'Mobile Apps', desc:'Cross‑platform apps for iOS and Android.' },
+            ];
+            const servicesGrid = servicesSection.querySelector('#servicesGrid');
+            servicesData.forEach(s => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `<span class="card-icon">${s.icon}</span><h3>${s.title}</h3><p>${s.desc}</p>`;
+                servicesGrid.appendChild(card);
+            });
+
+            // AD BANNER 2
+            const adBanner2 = document.createElement('div');
+            adBanner2.className = 'container';
+            const ad2 = document.createElement('div');
+            ad2.className = 'ad-container';
+            const ins2 = document.createElement('ins');
+            ins2.className = 'adsbygoogle';
+            ins2.style.display = 'block';
+            ins2.setAttribute('data-ad-client', 'ca-pub-9657019156571671');
+            ins2.setAttribute('data-ad-slot', '2222222222');
+            ins2.setAttribute('data-ad-format', 'auto');
+            ins2.setAttribute('data-full-width-responsive', 'true');
+            ad2.appendChild(ins2);
+            adBanner2.appendChild(ad2);
+
+            // ABOUT (personalized for a new project)
+            const aboutSection = document.createElement('section');
+            aboutSection.className = 'section-padding';
+            aboutSection.id = 'about';
+            aboutSection.innerHTML = `
+                <div class="container" style="display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:center;">
+                    <div style="text-align:center; background:var(--surface); border-radius:var(--radius); padding:2rem;">
+                        <span style="font-size:8rem; display:block;">🦄</span>
+                        <div style="display:flex; gap:1.5rem; justify-content:center; margin-top:1rem;">
+                            <div><div style="font-size:2rem; font-weight:900; background:linear-gradient(135deg,var(--accent),var(--accent2)); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;">3+</div><div style="font-size:0.8rem; color:var(--text3);">Projects</div></div>
+                            <div><div style="font-size:2rem; font-weight:900; background:linear-gradient(135deg,var(--accent),var(--accent2)); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;">1</div><div style="font-size:0.8rem; color:var(--text3);">Maker</div></div>
+                            <div><div style="font-size:2rem; font-weight:900; background:linear-gradient(135deg,var(--accent),var(--accent2)); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;">∞</div><div style="font-size:0.8rem; color:var(--text3);">Passion</div></div>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="section-label">About JSLONY</span>
+                        <h2 class="section-title">One person, big dreams</h2>
+                        <p style="color:var(--text2); margin-bottom:1rem;">I'm the creator behind JSLONY — a developer and designer who loves crafting digital experiences. This is a new, independent project, which means you get direct communication, complete dedication, and a partner who truly cares about your project.</p>
+                        <p style="color:var(--text3);">No big agency overhead. Just clean code, creative design, and a shared excitement for what we can build together.</p>
+                    </div>
+                </div>
+            `;
+
+            // TESTIMONIALS (kept but subtle)
+            const testimonialsSection = document.createElement('section');
+            testimonialsSection.className = 'section-padding';
+            testimonialsSection.style.background = 'var(--surface)';
+            testimonialsSection.innerHTML = `
+                <div class="container">
+                    <span class="section-label">Kind Words</span>
+                    <h2 class="section-title">What early clients say</h2>
+                    <div class="cards-grid">
+                        <div class="card">
+                            <p style="font-style:italic; color:var(--text2);">"Working with a solo developer was refreshing. Fast, personal, and excellent quality."</p>
+                            <p style="margin-top:1rem; font-weight:600;">— A. Rivera, Local Business</p>
+                        </div>
+                        <div class="card">
+                            <p style="font-style:italic; color:var(--text2);">"JSLONY built my portfolio exactly how I imagined it. Couldn't be happier."</p>
+                            <p style="margin-top:1rem; font-weight:600;">— K. Chen, Freelancer</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // WORK (minimal)
+            const workSection = document.createElement('section');
+            workSection.className = 'section-padding';
+            workSection.id = 'work';
+            workSection.innerHTML = `
+                <div class="container">
+                    <span class="section-label">Recent Work</span>
+                    <h2 class="section-title">A few things I've built</h2>
+                    <div class="cards-grid" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr));">
+                        <div class="card"><span class="card-icon">🌐</span><h3>Nexa Dashboard</h3><p>Real-time analytics interface.</p></div>
+                        <div class="card"><span class="card-icon">🛒</span><h3>Lumo Commerce</h3><p>Headless e‑commerce frontend.</p></div>
+                        <div class="card"><span class="card-icon">📋</span><h3>TaskFlow</h3><p>Project management web app.</p></div>
+                    </div>
+                </div>
+            `;
+
+            // CONTACT CTA
+            const contactSection = document.createElement('section');
+            contactSection.className = 'section-padding';
+            contactSection.id = 'contact';
+            contactSection.innerHTML = `
+                <div class="container">
+                    <div class="cta-section">
+                        <span class="section-label">Let's Collaborate</span>
+                        <h2 class="section-title">Have an idea? Let's build it.</h2>
+                        <p style="color:var(--text3); max-width:500px; margin:0 auto 2rem;">I'm always open to new projects and collaborations. Reach out and let's talk.</p>
+                        <a href="mailto:hello@jslony.dev" class="btn btn-primary">hello@jslony.dev</a>
+                    </div>
+                </div>
+            `;
+
+            // FOOTER
+            const footer = document.createElement('footer');
+            footer.className = 'jslony-footer';
+            footer.innerHTML = `
+                <div class="footer-links">
+                    <a href="#hero">Home</a>
+                    <a href="#features">Features</a>
+                    <a href="#services">Services</a>
+                    <a href="#about">About</a>
+                    <a href="#work">Work</a>
+                    <a href="#contact">Contact</a>
+                </div>
+                <p class="footer-copy">© ${new Date().getFullYear()} JSLONY. Made with <span class="heart">♥</span> and JavaScript.</p>
+            `;
+
+            // COOKIE BANNER
+            const cookieBanner = document.createElement('div');
+            cookieBanner.className = 'cookie-banner';
+            cookieBanner.id = 'cookieBanner';
+            cookieBanner.innerHTML = `
+                <p>🍪 This site uses cookies for analytics and personalized ads. <a href="#">Learn more</a></p>
+                <div class="cookie-btns">
+                    <button class="cookie-btn reject" id="rejectAllBtn">Reject All</button>
+                    <button class="cookie-btn customize" id="openConsentModalBtn">Customize</button>
+                    <button class="cookie-btn accept" id="acceptAllBtn">Accept All</button>
+                </div>
+            `;
+
+            // CONSENT MODAL
+            const consentOverlay = document.createElement('div');
+            consentOverlay.className = 'consent-overlay';
+            consentOverlay.id = 'consentOverlay';
+            consentOverlay.innerHTML = `
+                <div class="consent-modal">
+                    <h3>Cookie Preferences</h3>
+                    <p class="modal-desc">Choose which cookies you allow. Necessary cookies are always active.</p>
+                    <div class="consent-option">
+                        <div class="option-text">
+                            <strong>Necessary</strong>
+                            <small>Essential for the site to function.</small>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked disabled>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="consent-option">
+                        <div class="option-text">
+                            <strong>Analytics</strong>
+                            <small>Help me understand how the site is used.</small>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="analyticsToggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="consent-option">
+                        <div class="option-text">
+                            <strong>Marketing</strong>
+                            <small>Used for personalized ads.</small>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="marketingToggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="modal-actions">
+                        <button class="btn btn-outline" id="savePreferencesBtn">Save Preferences</button>
+                        <button class="btn btn-primary" id="acceptAllModalBtn">Accept All</button>
+                    </div>
+                </div>
+            `;
+
+            // FLOATING COOKIE ICON
+            const cookieIcon = document.createElement('div');
+            cookieIcon.className = 'cookie-settings-icon';
+            cookieIcon.id = 'cookieSettingsIcon';
+            cookieIcon.textContent = '🍪';
+
+            // APPEND TO ROOT
+            root.append(
+                nav, hero, adBanner1, featuresSection, servicesSection, adBanner2,
+                aboutSection, testimonialsSection, workSection,
+                contactSection, footer, cookieBanner, consentOverlay, cookieIcon
+            );
+
+            // ─────────────────────────────────────
+            // 3. CONSENT LOGIC (with real AdSense)
+            // ─────────────────────────────────────
+            const STORAGE_KEY = 'jslony_consent';
+            const defaultConsent = { necessary: true, analytics: false, marketing: false };
+
+            function getStoredConsent() {
+                try { return JSON.parse(localStorage.getItem(STORAGE_KEY)); } catch { return null; }
+            }
+            function saveConsent(obj) { localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); }
+
+            function loadAdSense() {
+                if (window.adsbygoogleLoaded) return;
+                window.adsbygoogleLoaded = true;
+                const script = document.createElement('script');
+                script.async = true;
+                script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9657019156571671';
+                script.crossOrigin = 'anonymous';
+                document.head.appendChild(script);
+                script.onload = () => {
+                    try {
+                        (window.adsbygoogle = window.adsbygoogle || []).push({});
+                        (window.adsbygoogle = window.adsbygoogle || []).push({});
+                    } catch (e) { console.log('AdSense:', e.message); }
+                };
+                console.log('✅ AdSense loaded: ca-pub-9657019156571671');
+            }
+
+            function applyConsent(consent) {
+                if (consent.analytics) console.log('📊 Analytics enabled');
+                if (consent.marketing) loadAdSense();
+                cookieIcon.classList.add('visible');
+                cookieBanner.classList.add('hidden');
+                consentOverlay.classList.remove('active');
+            }
+
+            function setToggles(consent) {
+                document.getElementById('analyticsToggle').checked = consent.analytics;
+                document.getElementById('marketingToggle').checked = consent.marketing;
+            }
+
+            // Init
+            const stored = getStoredConsent();
+            if (stored) {
+                applyConsent(stored);
+                setToggles(stored);
+            } else {
+                cookieBanner.classList.remove('hidden');
+                cookieIcon.classList.remove('visible');
+                setToggles(defaultConsent);
+            }
+
+            // Handlers
+            document.getElementById('acceptAllBtn').onclick = () => {
+                const full = { necessary:true, analytics:true, marketing:true };
+                saveConsent(full);
+                applyConsent(full);
+                setToggles(full);
+            };
+            document.getElementById('rejectAllBtn').onclick = () => {
+                const min = { necessary:true, analytics:false, marketing:false };
+                saveConsent(min);
+                applyConsent(min);
+                setToggles(min);
+            };
+            document.getElementById('openConsentModalBtn').onclick = () => {
+                const cur = getStoredConsent() || defaultConsent;
+                setToggles(cur);
+                consentOverlay.classList.add('active');
+            };
+            document.getElementById('acceptAllModalBtn').onclick = () => {
+                const full = { necessary:true, analytics:true, marketing:true };
+                saveConsent(full);
+                applyConsent(full);
+                setToggles(full);
+            };
+            document.getElementById('savePreferencesBtn').onclick = () => {
+                const analytics = document.getElementById('analyticsToggle').checked;
+                const marketing = document.getElementById('marketingToggle').checked;
+                const custom = { necessary:true, analytics, marketing };
+                saveConsent(custom);
+                applyConsent(custom);
+            };
+            consentOverlay.addEventListener('click', e => {
+                if (e.target === consentOverlay) consentOverlay.classList.remove('active');
+            });
+            cookieIcon.onclick = () => {
+                const cur = getStoredConsent() || defaultConsent;
+                setToggles(cur);
+                consentOverlay.classList.add('active');
+            };
+
+            // ─────────────────────────────────────
+            // 4. GENERAL INTERACTIVITY
+            // ─────────────────────────────────────
+            window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40), { passive:true });
+
+            const hamburgerBtn = document.getElementById('hamburgerBtn');
+            const navLinks = document.getElementById('navLinks');
+            hamburgerBtn.onclick = () => {
+                hamburgerBtn.classList.toggle('active');
+                navLinks.classList.toggle('open');
+            };
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburgerBtn.classList.remove('active');
+                    navLinks.classList.remove('open');
+                });
+            });
+
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    const target = document.querySelector(targetId);
+                    if (target) {
+                        e.preventDefault();
+                        const navHeight = nav.offsetHeight;
+                        const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navHeight - 10;
+                        window.scrollTo({ top: targetPosition, behavior:'smooth' });
+                    }
+                });
+            });
+
+            // Fade-in animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold:0.15 });
+            document.querySelectorAll('.card, .hero-title, .hero-subtitle, .hero-buttons').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(25px)';
+                el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+                observer.observe(el);
+            });
+            setTimeout(() => {
+                document.querySelectorAll('.hero-title, .hero-subtitle, .hero-buttons').forEach(el => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                });
+            }, 100);
+
+            console.log('🦄 JSLONY – New project, big passion. Consent & AdSense ready.');
+        })();
+    </script>
+</body>
+</html>

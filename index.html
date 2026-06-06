@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JSLONY — Creative Digital Studio</title>
-    <!-- Google AdSense verification meta tag -->
-  <meta name="google-adsense-account" content="ca-pub-9657019156571671">
+    <!-- Google AdSense verification -->
+    <meta name="google-adsense-account" content="ca-pub-9657019156571671">
+    
+    <!-- Google AdSense script – loads immediately for ad display -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9657019156571671" crossorigin="anonymous"></script>
+
     <noscript>
         <style>
             * { margin:0; padding:0; box-sizing:border-box; }
@@ -44,8 +48,7 @@
             <div class="ns-title">JavaScript Required</div>
             <p class="ns-desc">
                 JSLONY is a dynamic site built entirely with JavaScript.
-                Please enable JavaScript in your browser to experience the full site —
-                creative studio showcases, interactive elements, and more.
+                Please enable JavaScript in your browser to experience the full site.
             </p>
             <div class="ns-features">
                 <div class="ns-feat"><span class="emoji">🎨</span><span>Design</span></div>
@@ -65,11 +68,9 @@
             const root = document.getElementById('jslony-root');
             if (!root) return;
 
-            // ─────────────────────────────────────
-            // 1. INJECT ALL STYLES
-            // ─────────────────────────────────────
-            const styleEl = document.createElement('style');
-            styleEl.textContent = `
+            // 1. CSS STYLES
+            const style = document.createElement('style');
+            style.textContent = `
                 :root {
                     --bg: #0b0b18;
                     --surface: #13132b;
@@ -85,7 +86,6 @@
                     --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
                     --font: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
                 }
-
                 * { margin:0; padding:0; box-sizing:border-box; }
                 html { scroll-behavior:smooth; }
                 body {
@@ -96,7 +96,6 @@
                     overflow-x:hidden;
                     -webkit-font-smoothing:antialiased;
                 }
-
                 .container { max-width:1100px; margin:0 auto; padding:0 1.5rem; }
                 .section-padding { padding:5rem 1.5rem; }
 
@@ -141,8 +140,14 @@
                     padding:0.5rem 1.3rem; border-radius:25px; font-weight:600 !important;
                 }
                 .nav-cta::after { display:none !important; }
-                .hamburger { display:none; flex-direction:column; gap:5px; background:none; border:none; padding:8px; cursor:pointer; }
-                .hamburger span { width:26px; height:2.5px; background:var(--text); border-radius:2px; transition:var(--transition); }
+                .hamburger {
+                    display:none; flex-direction:column; gap:5px;
+                    background:none; border:none; padding:8px; cursor:pointer;
+                }
+                .hamburger span {
+                    width:26px; height:2.5px; background:var(--text);
+                    border-radius:2px; transition:var(--transition);
+                }
                 @media (max-width:768px) {
                     .nav-links {
                         position:fixed; top:0; right:-100%; width:280px; height:100vh;
@@ -182,12 +187,11 @@
                     border:1px solid rgba(255,255,255,0.1);
                     padding:0.4rem 1rem; border-radius:20px; font-size:0.85rem;
                     color:var(--accent3); letter-spacing:0.06em; margin-bottom:1.5rem;
-                    animation:fadeInUp 0.8s ease forwards;
                 }
                 .hero-title {
                     font-size:clamp(2.8rem,6vw,4.5rem); font-weight:900;
                     line-height:1.1; letter-spacing:-0.02em; margin-bottom:1.2rem;
-                    animation:fadeInUp 0.8s 0.15s ease forwards; opacity:0;
+                    opacity:0; animation:fadeInUp 0.8s 0.15s ease forwards;
                 }
                 .gradient-text {
                     background:linear-gradient(135deg,var(--accent),var(--accent2),var(--accent3));
@@ -202,11 +206,12 @@
                 }
                 .hero-subtitle {
                     font-size:1.2rem; color:var(--text3); max-width:550px;
-                    margin:0 auto 2.5rem; animation:fadeInUp 0.8s 0.3s ease forwards; opacity:0;
+                    margin:0 auto 2.5rem; opacity:0;
+                    animation:fadeInUp 0.8s 0.3s ease forwards;
                 }
                 .hero-buttons {
                     display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;
-                    animation:fadeInUp 0.8s 0.45s ease forwards; opacity:0;
+                    opacity:0; animation:fadeInUp 0.8s 0.45s ease forwards;
                 }
                 @keyframes fadeInUp {
                     from { opacity:0; transform:translateY(30px); }
@@ -247,8 +252,6 @@
                 .section-desc {
                     color:var(--text3); max-width:550px; font-size:1.05rem; margin-bottom:3rem;
                 }
-
-                /* CARDS */
                 .cards-grid {
                     display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.5rem;
                 }
@@ -274,7 +277,6 @@
                     background:rgba(255,255,255,0.02);
                     border:1px dashed rgba(255,255,255,0.15); border-radius:12px;
                     color:var(--text3); font-size:0.8rem;
-                    display:flex; align-items:center; justify-content:center;
                 }
 
                 /* COOKIE BANNER */
@@ -293,7 +295,6 @@
                     transform:translateX(-50%) translateY(20px);
                 }
                 .cookie-banner p { color:var(--text2); font-size:0.9rem; margin:0; flex:1; min-width:200px; }
-                .cookie-banner p a { color:var(--accent3); text-decoration:underline; }
                 .cookie-btns { display:flex; gap:0.8rem; flex-wrap:wrap; }
                 .cookie-btn {
                     padding:0.5rem 1.3rem; border-radius:20px; font-weight:600;
@@ -301,17 +302,14 @@
                     font-family:var(--font); transition:var(--transition);
                 }
                 .cookie-btn.accept { background:var(--accent); color:#fff; }
-                .cookie-btn.accept:hover { background:#ff4075; }
                 .cookie-btn.reject {
                     background:transparent; border:1px solid rgba(255,255,255,0.25);
                     color:var(--text2);
                 }
-                .cookie-btn.reject:hover { border-color:var(--text); color:#fff; }
                 .cookie-btn.customize {
                     background:transparent; border:1px solid rgba(255,255,255,0.25);
                     color:var(--text2);
                 }
-                .cookie-btn.customize:hover { border-color:var(--text); color:#fff; }
 
                 /* CONSENT MODAL */
                 .consent-overlay {
@@ -323,29 +321,21 @@
                 }
                 .consent-overlay.active { opacity:1; visibility:visible; }
                 .consent-modal {
-                    background:var(--surface); border:1px solid rgba(255,255,255,0.08);
-                    border-radius:20px; padding:2rem 2rem 1.8rem;
+                    background:var(--surface); border-radius:20px; padding:2rem;
                     max-width:500px; width:100%;
                     box-shadow:0 30px 60px rgba(0,0,0,0.7);
                     transform:translateY(20px); transition:transform 0.3s;
                 }
                 .consent-overlay.active .consent-modal { transform:translateY(0); }
-                .consent-modal h3 {
-                    font-size:1.4rem; font-weight:700; margin-bottom:0.8rem; color:var(--text);
-                }
-                .consent-modal .modal-desc {
-                    color:var(--text3); font-size:0.9rem; margin-bottom:1.8rem; line-height:1.6;
-                }
+                .consent-modal h3 { font-size:1.4rem; margin-bottom:0.8rem; }
                 .consent-option {
                     display:flex; align-items:flex-start; gap:1rem; padding:1rem 0;
                     border-bottom:1px solid rgba(255,255,255,0.05);
                 }
-                .consent-option:last-of-type { border-bottom:none; }
-                .consent-option .option-text { flex:1; }
-                .consent-option .option-text strong { display:block; font-size:1rem; color:var(--text); margin-bottom:0.2rem; }
-                .consent-option .option-text small { color:var(--text3); font-size:0.8rem; }
+                .consent-option:last-child { border-bottom:none; }
+                .option-text { flex:1; }
                 .toggle-switch {
-                    position:relative; display:inline-block; width:44px; height:24px; flex-shrink:0; margin-top:2px;
+                    position:relative; display:inline-block; width:44px; height:24px; flex-shrink:0;
                 }
                 .toggle-switch input { opacity:0; width:0; height:0; }
                 .slider {
@@ -360,13 +350,8 @@
                 }
                 input:checked + .slider { background:var(--accent); }
                 input:checked + .slider:before { transform:translateX(20px); }
-                input:disabled + .slider { opacity:0.5; cursor:not-allowed; }
-                .modal-actions {
-                    display:flex; gap:0.8rem; margin-top:2rem; justify-content:flex-end; flex-wrap:wrap;
-                }
-                .modal-actions .btn { padding:0.6rem 1.5rem; font-size:0.9rem; }
 
-                /* FLOATING COOKIE ICON */
+                /* FLOATING ICON */
                 .cookie-settings-icon {
                     position:fixed; bottom:24px; left:24px; width:44px; height:44px;
                     background:var(--surface); border:1px solid rgba(255,255,255,0.1);
@@ -377,21 +362,6 @@
                     opacity:0; pointer-events:none;
                 }
                 .cookie-settings-icon.visible { opacity:1; pointer-events:auto; }
-                .cookie-settings-icon:hover { background:var(--surface2); border-color:rgba(255,255,255,0.25); transform:scale(1.08); }
-
-                /* CTA */
-                .cta-section {
-                    text-align:center; background:var(--surface);
-                    border-radius:var(--radius); padding:3.5rem 2rem;
-                    border:1px solid rgba(255,255,255,0.05);
-                    position:relative; overflow:hidden;
-                }
-                .cta-section::after {
-                    content:''; position:absolute; inset:0;
-                    background:radial-gradient(ellipse at center, rgba(255,92,138,0.06) 0%, transparent 70%);
-                    pointer-events:none;
-                }
-                .cta-section > * { position:relative; z-index:1; }
 
                 /* FOOTER */
                 .jslony-footer {
@@ -403,16 +373,18 @@
                 }
                 .footer-links a { color:var(--text2); text-decoration:none; transition:var(--transition); }
                 .footer-links a:hover { color:var(--accent); }
-                .footer-copy { font-size:0.8rem; color:var(--text3); }
-                .footer-copy .heart { color:var(--accent); }
+                .notice-box {
+                    max-width:700px; margin:1.5rem auto 0;
+                    background:rgba(255,255,255,0.03); border-radius:12px;
+                    padding:1rem 1.5rem; font-size:0.8rem;
+                    color:var(--text3); line-height:1.5;
+                    border:1px solid rgba(255,255,255,0.05);
+                }
+                .notice-box a { color:var(--accent3); }
             `;
-            document.head.appendChild(styleEl);
+            document.head.appendChild(style);
 
-            // ─────────────────────────────────────
             // 2. BUILD THE DOM
-            // ─────────────────────────────────────
-
-            // NAV
             const nav = document.createElement('nav');
             nav.className = 'jslony-nav';
             nav.innerHTML = `
@@ -429,7 +401,6 @@
                 </div>
             `;
 
-            // HERO
             const hero = document.createElement('section');
             hero.className = 'hero';
             hero.id = 'hero';
@@ -438,17 +409,17 @@
                 <div class="hero-bg-orb orb2"></div>
                 <div class="hero-bg-orb orb3"></div>
                 <div class="hero-content">
-                    <span class="hero-badge">✦ New Digital Studio</span>
-                    <h1 class="hero-title">We're Just Getting Started<br><span class="gradient-text">Building Beautiful</span><br>Digital Experiences</h1>
-                    <p class="hero-subtitle">JSLONY is a fresh, independent project dedicated to crafting modern websites and apps — with passion, not a big team.</p>
+                    <span class="hero-badge">✦ Independent Digital Studio</span>
+                    <h1 class="hero-title">I Build<br><span class="gradient-text">Beautiful Digital</span><br>Experiences</h1>
+                    <p class="hero-subtitle">JSLONY is a solo project crafting modern websites and apps with passion, precision, and a personal touch.</p>
                     <div class="hero-buttons">
-                        <a href="#features" class="btn btn-primary">Explore What We Do</a>
+                        <a href="#features" class="btn btn-primary">Explore What I Do</a>
                         <a href="#contact" class="btn btn-outline">Work With Me</a>
                     </div>
                 </div>
             `;
 
-            // AD BANNER 1
+            // Ad unit 1
             const adBanner1 = document.createElement('div');
             adBanner1.className = 'container';
             const ad1 = document.createElement('div');
@@ -457,68 +428,32 @@
             ins1.className = 'adsbygoogle';
             ins1.style.display = 'block';
             ins1.setAttribute('data-ad-client', 'ca-pub-9657019156571671');
-            ins1.setAttribute('data-ad-slot', '1111111111');
+            ins1.setAttribute('data-ad-slot', '1111111111'); // Replace with your ad slot
             ins1.setAttribute('data-ad-format', 'auto');
             ins1.setAttribute('data-full-width-responsive', 'true');
             ad1.appendChild(ins1);
             adBanner1.appendChild(ad1);
 
-            // FEATURES
             const featuresSection = document.createElement('section');
             featuresSection.className = 'section-padding';
             featuresSection.id = 'features';
             featuresSection.innerHTML = `
                 <div class="container">
                     <span class="section-label">What I Offer</span>
-                    <h2 class="section-title">Focused on quality, not quantity</h2>
-                    <p class="section-desc">Every project gets my full attention. Here's what I bring to the table.</p>
+                    <h2 class="section-title">Focused on quality</h2>
                     <div class="cards-grid" id="featuresGrid"></div>
                 </div>
             `;
-            const featuresData = [
-                { icon:'🎨', title:'Clean UI/UX Design', desc:'Interfaces that feel intuitive and look stunning.' },
-                { icon:'⚡', title:'Performance First', desc:'Fast load times, smooth animations — because speed matters.' },
-                { icon:'🔧', title:'Full-Stack Development', desc:'Frontend to backend, I handle the entire stack.' },
-                { icon:'📱', title:'Mobile Ready', desc:'Responsive designs that work on every screen size.' },
-                { icon:'🎯', title:'SEO & Accessibility', desc:'Built for humans and search engines, from the ground up.' },
-                { icon:'🚀', title:'Reliable Support', desc:'I'm with you even after launch — updates, fixes, advice.' },
-            ];
-            const featuresGrid = featuresSection.querySelector('#featuresGrid');
-            featuresData.forEach(f => {
+            ['🎨 Clean UI/UX Design','⚡ Blazing Performance','🔧 Full-Stack Development','📱 Mobile Ready'].forEach(t => {
+                const [icon, ...rest] = t.split(' ');
+                const title = rest.join(' ');
                 const card = document.createElement('div');
                 card.className = 'card';
-                card.innerHTML = `<span class="card-icon">${f.icon}</span><h3>${f.title}</h3><p>${f.desc}</p>`;
-                featuresGrid.appendChild(card);
+                card.innerHTML = `<span class="card-icon">${icon}</span><h3>${title}</h3><p>${title} description.</p>`;
+                featuresSection.querySelector('#featuresGrid').appendChild(card);
             });
 
-            // SERVICES
-            const servicesSection = document.createElement('section');
-            servicesSection.className = 'section-padding';
-            servicesSection.id = 'services';
-            servicesSection.style.background = 'var(--surface)';
-            servicesSection.innerHTML = `
-                <div class="container">
-                    <span class="section-label">Services</span>
-                    <h2 class="section-title">What I can build for you</h2>
-                    <p class="section-desc">From simple landing pages to complex web apps — I love turning ideas into reality.</p>
-                    <div class="cards-grid" id="servicesGrid"></div>
-                </div>
-            `;
-            const servicesData = [
-                { icon:'🌐', title:'Web Development', desc:'Custom websites, portfolios, and business sites.' },
-                { icon:'🛒', title:'E-Commerce', desc:'Online stores that are easy to manage and scale.' },
-                { icon:'📊', title:'Dashboards', desc:'Data‑driven interfaces and admin panels.' },
-                { icon:'📱', title:'Mobile Apps', desc:'Cross‑platform apps for iOS and Android.' },
-            ];
-            const servicesGrid = servicesSection.querySelector('#servicesGrid');
-            servicesData.forEach(s => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.innerHTML = `<span class="card-icon">${s.icon}</span><h3>${s.title}</h3><p>${s.desc}</p>`;
-                servicesGrid.appendChild(card);
-            });
-
-            // AD BANNER 2
+            // Ad unit 2
             const adBanner2 = document.createElement('div');
             adBanner2.className = 'container';
             const ad2 = document.createElement('div');
@@ -527,321 +462,128 @@
             ins2.className = 'adsbygoogle';
             ins2.style.display = 'block';
             ins2.setAttribute('data-ad-client', 'ca-pub-9657019156571671');
-            ins2.setAttribute('data-ad-slot', '2222222222');
+            ins2.setAttribute('data-ad-slot', '2222222222'); // Replace with your ad slot
             ins2.setAttribute('data-ad-format', 'auto');
             ins2.setAttribute('data-full-width-responsive', 'true');
             ad2.appendChild(ins2);
             adBanner2.appendChild(ad2);
 
-            // ABOUT (personalized for a new project)
+            const servicesSection = document.createElement('section');
+            servicesSection.className = 'section-padding';
+            servicesSection.id = 'services';
+            servicesSection.style.background = 'var(--surface)';
+            servicesSection.innerHTML = `<div class="container"><h2 class="section-title">Services</h2><div class="cards-grid" id="servicesGrid"></div></div>`;
+            ['🌐 Web Development','🛒 E-Commerce'].forEach(t => {
+                const [icon, ...rest] = t.split(' ');
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `<span class="card-icon">${icon}</span><h3>${rest.join(' ')}</h3><p>Service details.</p>`;
+                servicesSection.querySelector('#servicesGrid').appendChild(card);
+            });
+
             const aboutSection = document.createElement('section');
             aboutSection.className = 'section-padding';
             aboutSection.id = 'about';
             aboutSection.innerHTML = `
                 <div class="container" style="display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:center;">
-                    <div style="text-align:center; background:var(--surface); border-radius:var(--radius); padding:2rem;">
-                        <span style="font-size:8rem; display:block;">🦄</span>
-                        <div style="display:flex; gap:1.5rem; justify-content:center; margin-top:1rem;">
-                            <div><div style="font-size:2rem; font-weight:900; background:linear-gradient(135deg,var(--accent),var(--accent2)); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;">3+</div><div style="font-size:0.8rem; color:var(--text3);">Projects</div></div>
-                            <div><div style="font-size:2rem; font-weight:900; background:linear-gradient(135deg,var(--accent),var(--accent2)); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;">1</div><div style="font-size:0.8rem; color:var(--text3);">Maker</div></div>
-                            <div><div style="font-size:2rem; font-weight:900; background:linear-gradient(135deg,var(--accent),var(--accent2)); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;">∞</div><div style="font-size:0.8rem; color:var(--text3);">Passion</div></div>
-                        </div>
-                    </div>
-                    <div>
-                        <span class="section-label">About JSLONY</span>
-                        <h2 class="section-title">One person, big dreams</h2>
-                        <p style="color:var(--text2); margin-bottom:1rem;">I'm the creator behind JSLONY — a developer and designer who loves crafting digital experiences. This is a new, independent project, which means you get direct communication, complete dedication, and a partner who truly cares about your project.</p>
-                        <p style="color:var(--text3);">No big agency overhead. Just clean code, creative design, and a shared excitement for what we can build together.</p>
-                    </div>
+                    <div style="text-align:center;"><span style="font-size:8rem;">🦄</span></div>
+                    <div><h2 class="section-title">A solo journey</h2><p style="color:var(--text2);">I'm the creator behind JSLONY – a developer who loves building digital products.</p></div>
                 </div>
             `;
 
-            // TESTIMONIALS (kept but subtle)
-            const testimonialsSection = document.createElement('section');
-            testimonialsSection.className = 'section-padding';
-            testimonialsSection.style.background = 'var(--surface)';
-            testimonialsSection.innerHTML = `
-                <div class="container">
-                    <span class="section-label">Kind Words</span>
-                    <h2 class="section-title">What early clients say</h2>
-                    <div class="cards-grid">
-                        <div class="card">
-                            <p style="font-style:italic; color:var(--text2);">"Working with a solo developer was refreshing. Fast, personal, and excellent quality."</p>
-                            <p style="margin-top:1rem; font-weight:600;">— A. Rivera, Local Business</p>
-                        </div>
-                        <div class="card">
-                            <p style="font-style:italic; color:var(--text2);">"JSLONY built my portfolio exactly how I imagined it. Couldn't be happier."</p>
-                            <p style="margin-top:1rem; font-weight:600;">— K. Chen, Freelancer</p>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            // WORK (minimal)
             const workSection = document.createElement('section');
             workSection.className = 'section-padding';
             workSection.id = 'work';
-            workSection.innerHTML = `
-                <div class="container">
-                    <span class="section-label">Recent Work</span>
-                    <h2 class="section-title">A few things I've built</h2>
-                    <div class="cards-grid" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr));">
-                        <div class="card"><span class="card-icon">🌐</span><h3>Nexa Dashboard</h3><p>Real-time analytics interface.</p></div>
-                        <div class="card"><span class="card-icon">🛒</span><h3>Lumo Commerce</h3><p>Headless e‑commerce frontend.</p></div>
-                        <div class="card"><span class="card-icon">📋</span><h3>TaskFlow</h3><p>Project management web app.</p></div>
-                    </div>
-                </div>
-            `;
+            workSection.style.background = 'var(--surface)';
+            workSection.innerHTML = `<div class="container"><h2 class="section-title">Recent Work</h2><div class="cards-grid">🌐 Nexa Dashboard</div></div>`;
 
-            // CONTACT CTA
             const contactSection = document.createElement('section');
             contactSection.className = 'section-padding';
             contactSection.id = 'contact';
             contactSection.innerHTML = `
-                <div class="container">
-                    <div class="cta-section">
-                        <span class="section-label">Let's Collaborate</span>
-                        <h2 class="section-title">Have an idea? Let's build it.</h2>
-                        <p style="color:var(--text3); max-width:500px; margin:0 auto 2rem;">I'm always open to new projects and collaborations. Reach out and let's talk.</p>
-                        <a href="mailto:hello@jslony.dev" class="btn btn-primary">hello@jslony.dev</a>
-                    </div>
+                <div class="container" style="text-align:center;">
+                    <h2 class="section-title">Let's build something great</h2>
+                    <a href="" class="btn btn-primary">Mailing for now is not possible</a>
                 </div>
             `;
 
-            // FOOTER
             const footer = document.createElement('footer');
             footer.className = 'jslony-footer';
             footer.innerHTML = `
                 <div class="footer-links">
-                    <a href="#hero">Home</a>
-                    <a href="#features">Features</a>
-                    <a href="#services">Services</a>
-                    <a href="#about">About</a>
-                    <a href="#work">Work</a>
-                    <a href="#contact">Contact</a>
+                    <a href="#hero">Home</a> <a href="#features">Features</a> <a href="#services">Services</a>
+                    <a href="#about">About</a> <a href="#work">Work</a> <a href="#contact">Contact</a>
                 </div>
-                <p class="footer-copy">© ${new Date().getFullYear()} JSLONY. Made with <span class="heart">♥</span> and JavaScript.</p>
+                <p>© ${new Date().getFullYear()} JSLONY. Made with <span style="color:var(--accent);">♥</span> and JavaScript.</p>
+                <div class="notice-box">
+                    <strong>Notice!</strong> This site uses <a href="https://adsense.google.com" target="_blank" rel="noopener">Google AdSense</a> to serve advertisements. Google may collect data for ad personalization and measurement. For details, visit Google's <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a>. You can manage your preferences using the cookie settings (🍪 icon).
+                </div>
             `;
 
-            // COOKIE BANNER
+            // Cookie banner (just a notice, no blocking)
             const cookieBanner = document.createElement('div');
             cookieBanner.className = 'cookie-banner';
             cookieBanner.id = 'cookieBanner';
             cookieBanner.innerHTML = `
-                <p>🍪 This site uses cookies for analytics and personalized ads. <a href="#">Learn more</a></p>
+                <p>🍪 We use cookies for analytics and ads. <a href="#" style="color:var(--accent3);">Learn more</a></p>
                 <div class="cookie-btns">
-                    <button class="cookie-btn reject" id="rejectAllBtn">Reject All</button>
+                    <button class="cookie-btn reject" id="rejectAllBtn">Dismiss</button>
                     <button class="cookie-btn customize" id="openConsentModalBtn">Customize</button>
-                    <button class="cookie-btn accept" id="acceptAllBtn">Accept All</button>
                 </div>
             `;
 
-            // CONSENT MODAL
             const consentOverlay = document.createElement('div');
             consentOverlay.className = 'consent-overlay';
             consentOverlay.id = 'consentOverlay';
             consentOverlay.innerHTML = `
                 <div class="consent-modal">
                     <h3>Cookie Preferences</h3>
-                    <p class="modal-desc">Choose which cookies you allow. Necessary cookies are always active.</p>
+                    <p style="color:var(--text3); margin-bottom:1.5rem;">You can adjust your preferences here. Note that ads are already loaded.</p>
                     <div class="consent-option">
-                        <div class="option-text">
-                            <strong>Necessary</strong>
-                            <small>Essential for the site to function.</small>
-                        </div>
-                        <label class="toggle-switch">
-                            <input type="checkbox" checked disabled>
-                            <span class="slider"></span>
-                        </label>
+                        <div class="option-text"><strong>Necessary</strong></div>
+                        <label class="toggle-switch"><input type="checkbox" checked disabled><span class="slider"></span></label>
                     </div>
                     <div class="consent-option">
-                        <div class="option-text">
-                            <strong>Analytics</strong>
-                            <small>Help me understand how the site is used.</small>
-                        </div>
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="analyticsToggle">
-                            <span class="slider"></span>
-                        </label>
+                        <div class="option-text"><strong>Analytics</strong></div>
+                        <label class="toggle-switch"><input type="checkbox" id="analyticsToggle"><span class="slider"></span></label>
                     </div>
                     <div class="consent-option">
-                        <div class="option-text">
-                            <strong>Marketing</strong>
-                            <small>Used for personalized ads.</small>
-                        </div>
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="marketingToggle">
-                            <span class="slider"></span>
-                        </label>
+                        <div class="option-text"><strong>Marketing</strong><small style="display:block; color:var(--text3);">Already active</small></div>
+                        <label class="toggle-switch"><input type="checkbox" id="marketingToggle" checked disabled><span class="slider"></span></label>
                     </div>
-                    <div class="modal-actions">
-                        <button class="btn btn-outline" id="savePreferencesBtn">Save Preferences</button>
-                        <button class="btn btn-primary" id="acceptAllModalBtn">Accept All</button>
+                    <div style="display:flex; gap:0.8rem; justify-content:flex-end; margin-top:2rem;">
+                        <button class="btn btn-outline" id="savePreferencesBtn">Save</button>
                     </div>
                 </div>
             `;
 
-            // FLOATING COOKIE ICON
             const cookieIcon = document.createElement('div');
             cookieIcon.className = 'cookie-settings-icon';
             cookieIcon.id = 'cookieSettingsIcon';
             cookieIcon.textContent = '🍪';
 
-            // APPEND TO ROOT
             root.append(
-                nav, hero, adBanner1, featuresSection, servicesSection, adBanner2,
-                aboutSection, testimonialsSection, workSection,
-                contactSection, footer, cookieBanner, consentOverlay, cookieIcon
+                nav, hero, adBanner1, featuresSection, adBanner2,
+                servicesSection, aboutSection, workSection, contactSection, footer,
+                cookieBanner, consentOverlay, cookieIcon
             );
 
-            // ─────────────────────────────────────
-            // 3. CONSENT LOGIC (with real AdSense)
-            // ─────────────────────────────────────
-            const STORAGE_KEY = 'jslony_consent';
-            const defaultConsent = { necessary: true, analytics: false, marketing: false };
+            // Trigger AdSense
+            try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch(e) {}
 
-            function getStoredConsent() {
-                try { return JSON.parse(localStorage.getItem(STORAGE_KEY)); } catch { return null; }
-            }
-            function saveConsent(obj) { localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); }
-
-            function loadAdSense() {
-                if (window.adsbygoogleLoaded) return;
-                window.adsbygoogleLoaded = true;
-                const script = document.createElement('script');
-                script.async = true;
-                script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9657019156571671';
-                script.crossOrigin = 'anonymous';
-                document.head.appendChild(script);
-                script.onload = () => {
-                    try {
-                        (window.adsbygoogle = window.adsbygoogle || []).push({});
-                        (window.adsbygoogle = window.adsbygoogle || []).push({});
-                    } catch (e) { console.log('AdSense:', e.message); }
-                };
-                console.log('✅ AdSense loaded: ca-pub-9657019156571671');
-            }
-
-            function applyConsent(consent) {
-                if (consent.analytics) console.log('📊 Analytics enabled');
-                if (consent.marketing) loadAdSense();
-                cookieIcon.classList.add('visible');
-                cookieBanner.classList.add('hidden');
-                consentOverlay.classList.remove('active');
-            }
-
-            function setToggles(consent) {
-                document.getElementById('analyticsToggle').checked = consent.analytics;
-                document.getElementById('marketingToggle').checked = consent.marketing;
-            }
-
-            // Init
-            const stored = getStoredConsent();
-            if (stored) {
-                applyConsent(stored);
-                setToggles(stored);
-            } else {
-                cookieBanner.classList.remove('hidden');
-                cookieIcon.classList.remove('visible');
-                setToggles(defaultConsent);
-            }
-
-            // Handlers
-            document.getElementById('acceptAllBtn').onclick = () => {
-                const full = { necessary:true, analytics:true, marketing:true };
-                saveConsent(full);
-                applyConsent(full);
-                setToggles(full);
-            };
-            document.getElementById('rejectAllBtn').onclick = () => {
-                const min = { necessary:true, analytics:false, marketing:false };
-                saveConsent(min);
-                applyConsent(min);
-                setToggles(min);
-            };
-            document.getElementById('openConsentModalBtn').onclick = () => {
-                const cur = getStoredConsent() || defaultConsent;
-                setToggles(cur);
-                consentOverlay.classList.add('active');
-            };
-            document.getElementById('acceptAllModalBtn').onclick = () => {
-                const full = { necessary:true, analytics:true, marketing:true };
-                saveConsent(full);
-                applyConsent(full);
-                setToggles(full);
-            };
-            document.getElementById('savePreferencesBtn').onclick = () => {
-                const analytics = document.getElementById('analyticsToggle').checked;
-                const marketing = document.getElementById('marketingToggle').checked;
-                const custom = { necessary:true, analytics, marketing };
-                saveConsent(custom);
-                applyConsent(custom);
-            };
-            consentOverlay.addEventListener('click', e => {
-                if (e.target === consentOverlay) consentOverlay.classList.remove('active');
-            });
-            cookieIcon.onclick = () => {
-                const cur = getStoredConsent() || defaultConsent;
-                setToggles(cur);
-                consentOverlay.classList.add('active');
-            };
-
-            // ─────────────────────────────────────
-            // 4. GENERAL INTERACTIVITY
-            // ─────────────────────────────────────
+            // Simple interaction
             window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40), { passive:true });
-
-            const hamburgerBtn = document.getElementById('hamburgerBtn');
-            const navLinks = document.getElementById('navLinks');
-            hamburgerBtn.onclick = () => {
-                hamburgerBtn.classList.toggle('active');
-                navLinks.classList.toggle('open');
+            document.getElementById('hamburgerBtn').onclick = () => {
+                document.getElementById('navLinks').classList.toggle('open');
             };
-            navLinks.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    hamburgerBtn.classList.remove('active');
-                    navLinks.classList.remove('open');
-                });
-            });
-
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    const targetId = this.getAttribute('href');
-                    if (targetId === '#') return;
-                    const target = document.querySelector(targetId);
-                    if (target) {
-                        e.preventDefault();
-                        const navHeight = nav.offsetHeight;
-                        const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navHeight - 10;
-                        window.scrollTo({ top: targetPosition, behavior:'smooth' });
-                    }
-                });
-            });
-
-            // Fade-in animations
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold:0.15 });
-            document.querySelectorAll('.card, .hero-title, .hero-subtitle, .hero-buttons').forEach(el => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(25px)';
-                el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
-                observer.observe(el);
-            });
-            setTimeout(() => {
-                document.querySelectorAll('.hero-title, .hero-subtitle, .hero-buttons').forEach(el => {
-                    el.style.opacity = '1';
-                    el.style.transform = 'translateY(0)';
-                });
-            }, 100);
-
-            console.log('🦄 JSLONY – New project, big passion. Consent & AdSense ready.');
+            cookieIcon.onclick = () => consentOverlay.classList.add('active');
+            document.getElementById('openConsentModalBtn').onclick = () => consentOverlay.classList.add('active');
+            document.getElementById('rejectAllBtn').onclick = () => cookieBanner.classList.add('hidden');
+            document.getElementById('savePreferencesBtn').onclick = () => {
+                consentOverlay.classList.remove('active');
+                cookieBanner.classList.add('hidden');
+            };
+            consentOverlay.addEventListener('click', e => { if (e.target === consentOverlay) consentOverlay.classList.remove('active'); });
         })();
     </script>
 </body>

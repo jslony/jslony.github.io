@@ -9,13 +9,21 @@
             background: #0b0b18;
             color: #e8e8f0;
             font-family: 'Segoe UI', system-ui, sans-serif;
-            max-width: 800px;
+            max-width: 900px;
             margin: 3rem auto;
             padding: 0 1.5rem;
         }
         h1 { color: #ff5c8a; }
-        h2 { color: #b44dff; margin-top: 2.5rem; font-size: 1.5rem; }
-        .overall-status {
+        h2 { color: #b44dff; margin-top: 2rem; font-size: 1.5rem; }
+        nav { margin-bottom: 2rem; }
+        nav a {
+            margin-right: 1rem;
+            color: #5ec5e8;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        nav a:hover { text-decoration: underline; }
+        .overall {
             background: #13132b;
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: 16px;
@@ -33,21 +41,16 @@
             box-shadow: 0 0 15px #00ff88;
             animation: pulse 2s infinite;
         }
+        .dot-large.warning {
+            background: #ffc800;
+            box-shadow: 0 0 15px #ffc800;
+        }
         @keyframes pulse {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.5; }
         }
-        .status-text h3 {
-            margin: 0;
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #fff;
-        }
-        .status-text p {
-            margin: 0.3rem 0 0;
-            color: #b0b0c0;
-            font-size: 0.95rem;
-        }
+        .status-text h3 { margin: 0; font-size: 1.3rem; color: #fff; }
+        .status-text p { margin: 0.3rem 0 0; color: #b0b0c0; }
         .service-group {
             background: #13132b;
             border: 1px solid rgba(255,255,255,0.1);
@@ -76,7 +79,7 @@
             display: inline-flex;
             align-items: center;
             gap: 0.4rem;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 600;
             padding: 0.2rem 0.8rem;
             border-radius: 20px;
@@ -88,6 +91,17 @@
             height: 8px;
             border-radius: 50%;
             background: #00ff88;
+        }
+        .status-badge.warning {
+            background: rgba(255,200,0,0.1);
+            color: #ffc800;
+        }
+        .status-badge.warning .dot {
+            background: #ffc800;
+        }
+        .incident-active {
+            background: rgba(255,0,0,0.08);
+            border: 1px solid rgba(255,0,0,0.2);
         }
         .incident-log {
             background: #13132b;
@@ -107,6 +121,23 @@
         .incident-desc { color: #b0b0c0; flex: 1; }
         .incident-status { font-weight: 600; font-size: 0.85rem; }
         .resolved { color: #00ff88; }
+        .uptime-grid {
+            display: flex;
+            gap: 6px;
+            align-items: flex-end;
+            margin-top: 1rem;
+        }
+        .uptime-bar {
+            width: 30px;
+            border-radius: 4px;
+            background: #00ff88;
+        }
+        .uptime-label {
+            font-size: 0.7rem;
+            color: #7a7a95;
+            text-align: center;
+            margin-top: 4px;
+        }
         a { color: #5ec5e8; text-decoration: none; }
         .back-link {
             display: inline-block;
@@ -118,52 +149,107 @@
             color: #b0b0c0;
             transition: 0.3s;
         }
-        .back-link:hover {
-            background: rgba(255,255,255,0.1);
-            color: #fff;
-        }
+        .back-link:hover { background: rgba(255,255,255,0.1); color: #fff; }
         .footer-note {
             text-align: center;
             color: #7a7a95;
             font-size: 0.85rem;
             margin-top: 2rem;
         }
+        .maintenance-highlight {
+            background: rgba(240, 192, 64, 0.08);
+            border: 1px solid rgba(240, 192, 64, 0.3);
+        }
     </style>
 </head>
 <body>
+    <nav>
+        <a href="/">Home</a> |
+        <a href="/privacy/">Privacy Policy</a> |
+        <a href="/ads/">Ad Disclosure</a> |
+        <a href="/contact/">Contact</a> |
+        <a href="/status/"><strong>Status</strong></a>
+    </nav>
+
     <h1>System Status</h1>
 
-    <!-- Overall status -->
-    <div class="overall-status">
-        <div class="dot-large"></div>
+    <!-- Overall Status – still warning because Home and other core services are degraded -->
+    <div class="overall">
+        <div class="dot-large warning"></div>
         <div class="status-text">
-            <h3>All Systems Operational</h3>
-            <p>Last updated: just now | 100% uptime (manual tracking)</p>
+            <h3>Some Services Degraded</h3>
+            <p>Home Page, Navigation & UI, Static Content Delivery, and Cookie Consent are currently experiencing issues.</p>
         </div>
     </div>
 
-    <!-- Core Services -->
+    <div class="service-group incident-active" style="display:none;">
+        <h4>🚨 Active Incident</h4>
+        <div class="incident-entry">
+            <span class="incident-date">[Today]</span>
+            <span class="incident-desc">No active incidents.</span>
+            <span class="incident-status" style="color:#ff5c8a;">Investigating</span>
+        </div>
+    </div>
+
+    <!-- Page Status – Home now Degraded -->
+    <div class="service-group">
+        <h4>Page Status</h4>
+        <div class="service-item">
+            <span class="service-name">🏠 <a href="/">Home</a></span>
+            <span class="status-badge warning"><span class="dot"></span> Degraded</span>
+        </div>
+        <div class="service-item">
+            <span class="service-name">📄 <a href="/privacy/">Privacy Policy</a></span>
+            <span class="status-badge"><span class="dot"></span> Operational</span>
+        </div>
+        <div class="service-item">
+            <span class="service-name">📢 <a href="/ads/">Ad Disclosure</a></span>
+            <span class="status-badge"><span class="dot"></span> Operational</span>
+        </div>
+        <div class="service-item">
+            <span class="service-name">✉️ <a href="/contact/">Contact</a></span>
+            <span class="status-badge"><span class="dot"></span> Operational</span>
+        </div>
+        <div class="service-item">
+            <span class="service-name">🟢 <a href="/status/">System Status</a></span>
+            <span class="status-badge"><span class="dot"></span> Operational</span>
+        </div>
+    </div>
+
+    <!-- Core Services – Home already listed, but we already have Navigation/UI, etc. Keep as is -->
     <div class="service-group">
         <h4>Core Services</h4>
         <div class="service-item">
-            <span class="service-name">🌐 Main Website</span>
+            <span class="service-name">🌐 Main Website (Dynamic JS)</span>
+            <span class="status-badge warning"><span class="dot"></span> Degraded</span>
+        </div>
+        <div class="service-item">
+            <span class="service-name">⚙️ JavaScript Engine</span>
             <span class="status-badge"><span class="dot"></span> Operational</span>
         </div>
         <div class="service-item">
-            <span class="service-name">🔒 SSL Certificate</span>
+            <span class="service-name">🧭 Navigation & UI</span>
+            <span class="status-badge warning"><span class="dot"></span> Degraded</span>
+        </div>
+        <div class="service-item">
+            <span class="service-name">📁 Static Content Delivery</span>
+            <span class="status-badge warning"><span class="dot"></span> Degraded</span>
+        </div>
+        <div class="service-item">
+            <span class="service-name">🔒 SSL Certificate & Monitoring</span>
             <span class="status-badge"><span class="dot"></span> Valid</span>
         </div>
         <div class="service-item">
-            <span class="service-name">📄 Static Pages (Privacy, Ads, Contact)</span>
-            <span class="status-badge"><span class="dot"></span> Operational</span>
+            <span class="service-name">🍪 Cookie Consent System</span>
+            <span class="status-badge warning"><span class="dot"></span> Degraded</span>
         </div>
         <div class="service-item">
-            <span class="service-name">🍪 Cookie Consent</span>
+            <span class="service-name">📢 Ad Delivery (Google AdSense)</span>
             <span class="status-badge"><span class="dot"></span> Operational</span>
         </div>
     </div>
 
-    <!-- Third-Party Integrations -->
+    <!-- Third‑Party Services – unchanged -->
     <div class="service-group">
         <h4>Third‑Party Services</h4>
         <div class="service-item">
@@ -171,29 +257,67 @@
             <span class="status-badge"><span class="dot"></span> Operational</span>
         </div>
         <div class="service-item">
-            <span class="service-name">📊 Google Analytics (if enabled)</span>
+            <span class="service-name">📊 Google Analytics</span>
             <span class="status-badge"><span class="dot"></span> Ready</span>
         </div>
         <div class="service-item">
-            <span class="service-name">📧 Email Delivery (future)</span>
-            <span class="status-badge"><span class="dot"></span> Planned</span>
+            <span class="service-name">🔤 Google Fonts</span>
+            <span class="status-badge"><span class="dot"></span> Operational</span>
         </div>
     </div>
 
-    <!-- Recent Incidents -->
+    <!-- Infrastructure – unchanged -->
+    <div class="service-group">
+        <h4>Infrastructure</h4>
+        <div class="service-item">
+            <span class="service-name">🏠 GitHub Pages</span>
+            <span class="status-badge"><span class="dot"></span> Operational</span>
+        </div>
+        <div class="service-item">
+            <span class="service-name">🌍 DNS (jslony.github.io)</span>
+            <span class="status-badge"><span class="dot"></span> Operational</span>
+        </div>
+        <div class="service-item">
+            <span class="service-name">⚡ CDN (GitHub's)</span>
+            <span class="status-badge"><span class="dot"></span> Operational</span>
+        </div>
+    </div>
+
+    <!-- Maintenance unchanged -->
+    <div class="service-group maintenance-highlight">
+        <h4>Scheduled Maintenance</h4>
+        <p style="color:#f0c040; font-weight:600;">Upcoming: June 7, 2026, 07:41 UTC</p>
+        <p style="color:#b0b0c0; margin-top:0.5rem;">The site may be briefly unavailable. A notice banner is displayed on the <a href="/">home page</a>.</p>
+    </div>
+
+    <!-- Uptime unchanged -->
+    <div class="service-group">
+        <h4>Uptime History (last 7 days)</h4>
+        <div class="uptime-grid">
+            <div><div class="uptime-bar" style="height:58px;"></div><div class="uptime-label">Mon</div></div>
+            <div><div class="uptime-bar" style="height:60px;"></div><div class="uptime-label">Tue</div></div>
+            <div><div class="uptime-bar" style="height:60px;"></div><div class="uptime-label">Wed</div></div>
+            <div><div class="uptime-bar" style="height:59px;"></div><div class="uptime-label">Thu</div></div>
+            <div><div class="uptime-bar" style="height:60px;"></div><div class="uptime-label">Fri</div></div>
+            <div><div class="uptime-bar" style="height:60px;"></div><div class="uptime-label">Sat</div></div>
+            <div><div class="uptime-bar" style="height:60px;"></div><div class="uptime-label">Sun</div></div>
+        </div>
+        <p style="color:#7a7a95; font-size:0.85rem; margin-top:1rem;">100% uptime this week.</p>
+    </div>
+
+    <!-- Incidents updated -->
     <div class="incident-log">
         <h2 style="margin-top:0;">Recent Incidents</h2>
         <div class="incident-entry">
-            <span class="incident-date">[Date]</span>
-            <span class="incident-desc">No incidents recorded yet.</span>
-            <span class="incident-status resolved">Resolved</span>
+            <span class="incident-date">07.07.26</span>
+            <span class="incident-desc">Home Page, Navigation/UI, Static Content Delivery, and Cookie Consent System are degraded. Investigation ongoing.</span>
+            <span class="incident-status" style="color:#ffc800;">Ongoing</span>
         </div>
-        <p style="color:#7a7a95; font-size:0.85rem; margin-top:1rem;">This log will be updated if any service disruptions occur.</p>
     </div>
 
     <p class="footer-note">
-        This status page is manually updated. For real‑time issues, please contact us via <a href="/contact/">contact page</a>.
-        <br>Check our <a href="/privacy/">privacy policy</a> and <a href="/ads/">ad disclosure</a>.
+        Status page updated manually. For immediate concerns, visit the <a href="/contact/">contact page</a>.
+        <br>Hosted on <strong>jslony.github.io</strong>.
     </p>
 
     <a href="/" class="back-link">← Back to JSLONY</a>

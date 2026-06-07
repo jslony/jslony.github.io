@@ -6,8 +6,7 @@
     <title>JSLONY — Creative Digital Studio</title>
     <!-- Google AdSense verification -->
     <meta name="google-adsense-account" content="ca-pub-9657019156571671">
-    
-    <!-- Google AdSense script – loads immediately for ad display -->
+    <!-- AdSense script loads immediately -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9657019156571671" crossorigin="anonymous"></script>
 
     <noscript>
@@ -428,7 +427,7 @@
             ins1.className = 'adsbygoogle';
             ins1.style.display = 'block';
             ins1.setAttribute('data-ad-client', 'ca-pub-9657019156571671');
-            ins1.setAttribute('data-ad-slot', '1111111111'); // Replace with your ad slot
+            ins1.setAttribute('data-ad-slot', '1111111111'); // Replace with your real ad slot
             ins1.setAttribute('data-ad-format', 'auto');
             ins1.setAttribute('data-full-width-responsive', 'true');
             ad1.appendChild(ins1);
@@ -462,7 +461,7 @@
             ins2.className = 'adsbygoogle';
             ins2.style.display = 'block';
             ins2.setAttribute('data-ad-client', 'ca-pub-9657019156571671');
-            ins2.setAttribute('data-ad-slot', '2222222222'); // Replace with your ad slot
+            ins2.setAttribute('data-ad-slot', '2222222222'); // Replace with your real ad slot
             ins2.setAttribute('data-ad-format', 'auto');
             ins2.setAttribute('data-full-width-responsive', 'true');
             ad2.appendChild(ins2);
@@ -503,16 +502,24 @@
             contactSection.innerHTML = `
                 <div class="container" style="text-align:center;">
                     <h2 class="section-title">Let's build something great</h2>
-                    <a href="" class="btn btn-primary">Mailing for now is not possible</a>
+                    <a href="mailto:hello@jslony.dev" class="btn btn-primary">hello@jslony.dev</a>
                 </div>
             `;
 
+            // FOOTER – with clean links to static pages
             const footer = document.createElement('footer');
             footer.className = 'jslony-footer';
             footer.innerHTML = `
                 <div class="footer-links">
-                    <a href="#hero">Home</a> <a href="#features">Features</a> <a href="#services">Services</a>
-                    <a href="#about">About</a> <a href="#work">Work</a> <a href="#contact">Contact</a>
+                    <a href="#hero">Home</a>
+                    <a href="#features">Features</a>
+                    <a href="#services">Services</a>
+                    <a href="#about">About</a>
+                    <a href="#work">Work</a>
+                    <a href="#contact">Contact</a>
+                    <a href="/privacy/">Privacy Policy</a>
+                    <a href="/ads/">Ad Disclosure</a>
+                    <a href="/contact/">Contact (static)</a>
                 </div>
                 <p>© ${new Date().getFullYear()} JSLONY. Made with <span style="color:var(--accent);">♥</span> and JavaScript.</p>
                 <div class="notice-box">
@@ -520,14 +527,14 @@
                 </div>
             `;
 
-            // Cookie banner (just a notice, no blocking)
+            // COOKIE BANNER (non‑blocking)
             const cookieBanner = document.createElement('div');
             cookieBanner.className = 'cookie-banner';
             cookieBanner.id = 'cookieBanner';
             cookieBanner.innerHTML = `
-                <p>🍪 We use cookies for analytics and ads. <a href="#" style="color:var(--accent3);">Learn more</a></p>
+                <p>🍪 We use cookies for analytics and ads. <a href="/privacy/" style="color:var(--accent3);">Learn more</a></p>
                 <div class="cookie-btns">
-                    <button class="cookie-btn reject" id="rejectAllBtn">Dismiss</button>
+                    <button class="cookie-btn reject" id="dismissCookieBtn">Dismiss</button>
                     <button class="cookie-btn customize" id="openConsentModalBtn">Customize</button>
                 </div>
             `;
@@ -568,22 +575,29 @@
                 cookieBanner, consentOverlay, cookieIcon
             );
 
-            // Trigger AdSense
+            // Trigger AdSense (already loaded)
             try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch(e) {}
 
-            // Simple interaction
+            // Simple interactivity
             window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40), { passive:true });
-            document.getElementById('hamburgerBtn').onclick = () => {
-                document.getElementById('navLinks').classList.toggle('open');
-            };
+            document.getElementById('hamburgerBtn').onclick = () => document.getElementById('navLinks').classList.toggle('open');
+
+            // Cookie banner logic
+            const dismissBtn = document.getElementById('dismissCookieBtn');
+            const customizeBtn = document.getElementById('openConsentModalBtn');
+            const saveBtn = document.getElementById('savePreferencesBtn');
+
+            dismissBtn.onclick = () => cookieBanner.classList.add('hidden');
+            customizeBtn.onclick = () => consentOverlay.classList.add('active');
             cookieIcon.onclick = () => consentOverlay.classList.add('active');
-            document.getElementById('openConsentModalBtn').onclick = () => consentOverlay.classList.add('active');
-            document.getElementById('rejectAllBtn').onclick = () => cookieBanner.classList.add('hidden');
-            document.getElementById('savePreferencesBtn').onclick = () => {
+            saveBtn.onclick = () => {
                 consentOverlay.classList.remove('active');
                 cookieBanner.classList.add('hidden');
+                cookieIcon.classList.add('visible');
             };
-            consentOverlay.addEventListener('click', e => { if (e.target === consentOverlay) consentOverlay.classList.remove('active'); });
+            consentOverlay.addEventListener('click', e => {
+                if (e.target === consentOverlay) consentOverlay.classList.remove('active');
+            });
         })();
     </script>
 </body>

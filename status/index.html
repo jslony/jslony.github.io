@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Status | JSLONY</title>
+    <style>
+        body {
+            background: #0b0b18;
+            color: #e8e8f0;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            max-width: 800px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+        h1 { color: #ff5c8a; }
+        h2 { color: #b44dff; margin-top: 2.5rem; font-size: 1.5rem; }
+        .overall-status {
+            background: #13132b;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .dot-large {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #00ff88;
+            box-shadow: 0 0 15px #00ff88;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .status-text h3 {
+            margin: 0;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #fff;
+        }
+        .status-text p {
+            margin: 0.3rem 0 0;
+            color: #b0b0c0;
+            font-size: 0.95rem;
+        }
+        .service-group {
+            background: #13132b;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .service-group h4 {
+            margin: 0 0 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #b0b0c0;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .service-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .service-item:last-child { border-bottom: none; }
+        .service-name { font-weight: 500; }
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            background: rgba(0,255,136,0.1);
+            color: #00ff88;
+        }
+        .status-badge .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #00ff88;
+        }
+        .incident-log {
+            background: #13132b;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        .incident-entry {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .incident-entry:last-child { border-bottom: none; }
+        .incident-date { color: #7a7a95; font-size: 0.85rem; white-space: nowrap; margin-right: 1rem; }
+        .incident-desc { color: #b0b0c0; flex: 1; }
+        .incident-status { font-weight: 600; font-size: 0.85rem; }
+        .resolved { color: #00ff88; }
+        a { color: #5ec5e8; text-decoration: none; }
+        .back-link {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 0.5rem 1.2rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            text-decoration: none;
+            color: #b0b0c0;
+            transition: 0.3s;
+        }
+        .back-link:hover {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+        }
+        .footer-note {
+            text-align: center;
+            color: #7a7a95;
+            font-size: 0.85rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>System Status</h1>
+
+    <!-- Overall status -->
+    <div class="overall-status">
+        <div class="dot-large"></div>
+        <div class="status-text">
+            <h3>All Systems Operational</h3>
+            <p>Last updated: just now | 100% uptime (manual tracking)</p>
+        </div>
+    </div>
+
+    <!-- Core Services -->
+    <div class="service-group">
+        <h4>Core Services</h4>
+        <div class="service-item">
+            <span class="service-name">🌐 Main Website</span>
+            <span class="status-badge"><span class="dot"></span> Operational</span>
+        </div>
+        <div class="service-item">
+            <span class="service-name">🔒 SSL Certificate</span>
+            <span class="status-badge"><span class="dot"></span> Valid</span>
+        </div>
+        <div class="service-item">
+            <span class="service-name">📄 Static Pages (Privacy, Ads, Contact)</span>
+            <span class="status-badge"><span class="dot"></span> Operational</span>
+        </div>
+        <div class="service-item">
+            <span class="service-name">🍪 Cookie Consent</span>
+            <span class="status-badge"><span class="dot"></span> Operational</span>
+        </div>
+    </div>
+
+    <!-- Third-Party Integrations -->
+    <div class="service-group">
+        <h4>Third‑Party Services</h4>
+        <div class="service-item">
+            <span class="service-name">📢 Google AdSense</span>
+            <span class="status-badge"><span class="dot"></span> Operational</span>
+        </div>
+        <div class="service-item">
+            <span class="service-name">📊 Google Analytics (if enabled)</span>
+            <span class="status-badge"><span class="dot"></span> Ready</span>
+        </div>
+        <div class="service-item">
+            <span class="service-name">📧 Email Delivery (future)</span>
+            <span class="status-badge"><span class="dot"></span> Planned</span>
+        </div>
+    </div>
+
+    <!-- Recent Incidents -->
+    <div class="incident-log">
+        <h2 style="margin-top:0;">Recent Incidents</h2>
+        <div class="incident-entry">
+            <span class="incident-date">[Date]</span>
+            <span class="incident-desc">No incidents recorded yet.</span>
+            <span class="incident-status resolved">Resolved</span>
+        </div>
+        <p style="color:#7a7a95; font-size:0.85rem; margin-top:1rem;">This log will be updated if any service disruptions occur.</p>
+    </div>
+
+    <p class="footer-note">
+        This status page is manually updated. For real‑time issues, please contact us via <a href="/contact/">contact page</a>.
+        <br>Check our <a href="/privacy/">privacy policy</a> and <a href="/ads/">ad disclosure</a>.
+    </p>
+
+    <a href="/" class="back-link">← Back to JSLONY</a>
+</body>
+</html>
